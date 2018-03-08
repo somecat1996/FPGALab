@@ -19,14 +19,25 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 module RotaryLED(
+	 input clk,
     input ROT_A,
     input ROT_B,
-    output reg [7:0] LEDOut,
-    input Switch
+    input Switch,
+    output [7:0] LEDOut
     );
 	 reg [7:0] q;
+	 reg [31:0] count;
+	 reg clk_500ms;
 	 
-	 always @ (ROT_A, ROT_B) begin
+	 always @ (clk) begin
+		if(count>=25000000) begin
+			count <= 0;
+			clk_500ms <= ~clk_500ms;
+		end
+		else count <= count + 1;
+	 end
+	 
+	 always @ (clk_500ms) begin
 		if(|q == 1'b0) begin
 			case({ROT_A, ROT_B})
 			2'b01:q <= 8'b1000_0000;
@@ -42,13 +53,13 @@ module RotaryLED(
 			endcase
 	 end
 	 
-	 always @ (Switch) begin
-		case(Switch)
-		1'b0:LEDOut <= q;
-		1'b1:LEDOut <= ~q;
-		default:begin
-			LEDOut <= 8'b0000_0001;
-		end
-		endcase
-	 end
+	 assign LEDOut = Switch?~q:q;
+	 
+//	 always @ (Switch) begin
+//		case(Switch)
+//		1'b0:LEDOut <= q;
+//		1'b1:LEDOut <= ~q;
+//		default:LEDOut <= 8'b0000_0001;
+//		endcase
+//	 end
 endmodule
