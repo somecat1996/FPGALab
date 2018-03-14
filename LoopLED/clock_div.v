@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date:    23:13:13 03/01/2018 
+// Create Date:    15:20:45 03/13/2018 
 // Design Name: 
-// Module Name:    LoopLED 
+// Module Name:    clock_div 
 // Project Name: 
 // Target Devices: 
 // Tool versions: 
@@ -18,20 +18,19 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-`include "clock_div.v"
-
-module LoopLED(
+module clock_div(
     input clk,
-    output reg [7:0] LEDOut
+    output reg clk_500ms
     );
+	 reg [31:0] q;
+	 
+	 always @ (posedge clk) begin
+		if(q >= 25000000) begin
+			clk_500ms <= ~clk_500ms;
+			q <= 0;
+			end
+		else q <= q + 1;
+		end
 
-	 wire clk_500ms;
-	 
-	 clock_div cd(.clk(clk), .clk_500ms(clk_500ms));
-	 
-	 always @ (posedge clk_500ms) begin
-		if(LEDOut[7] == 1'b1) LEDOut <= 8'b0;
-		else LEDOut <= {LEDOut[6:0], 1'b1};
-	end
 
 endmodule

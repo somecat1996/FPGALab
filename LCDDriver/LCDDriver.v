@@ -247,39 +247,41 @@ module LCD_Driver( output SF_CE0,			// 4 Î» LCD Êý¾ÝÐÅºÅÓë StrataFlash ´æ´¢Æ÷¹²Ï
 	
 	always @(*)
 	begin
-		case ( cnt_1 )
-			0:		tx_Line1 	= 8'b0100_0110;		// CHAR_F
-			1:		tx_Line1	= 8'b0101_0000;		// CHAR_P
-			2:		tx_Line1 	= 8'b0100_0111;		// CHAR_G
-			3:		tx_Line1	= 8'b0100_0001;		// CHAR_A
-			4:		tx_Line1	= 8'b0010_0000;		// CHAR_SPACE_1
-			5:		tx_Line1	= 8'b0100_1100;		// CHAR_L
-			6:		tx_Line1	= 8'b0110_0001;		// CHAR_a
-			7:		tx_Line1	= 8'b0110_0010;		// CHAR_b
-			8:		tx_Line1	= 8'b0010_0000;		// CHAR_SPACE_2
-			9:		tx_Line1	= 8'b0011_0010;		// CHAR_2_C1
-			10: 	tx_Line1	= 8'b0011_0000;		// CHAR_0
-			11:		tx_Line1	= 8'b0011_0001;		// CHAR_1
-			12: 	tx_Line1 	= 8'b0011_0010;		// CHAR_2_C2
+		case ( cnt_1 ) //Spartan-3E FPGA
+			0:		tx_Line1 = 8'b0101_0011;		// CHAR_S
+			1:		tx_Line1	= 8'b0111_0000;		// CHAR_p
+			2:		tx_Line1 = 8'b0110_0001;		// CHAR_a
+			3:		tx_Line1	= 8'b0110_0010;		// CHAR_r
+			4:		tx_Line1	= 8'b0111_0100;		// CHAR_t
+			5:		tx_Line1	= 8'b0110_0001;		// CHAR_a
+			6:		tx_Line1	= 8'b0110_1110;		// CHAR_n
+			7:		tx_Line1	= 8'b0010_1101;		// CHAR_-
+			8:		tx_Line1	= 8'b0011_0011;		// CHAR_3
+			9:		tx_Line1	= 8'b0100_0101;		// CHAR_E
+			10: 	tx_Line1	= 8'b0010_0000;		// CHAR_ 
+			11:	tx_Line1	= 8'b0100_0110;		// CHAR_F
+			12: 	tx_Line1 = 8'b0101_0000;		// CHAR_P
+			13: 	tx_Line1 = 8'b0100_0111;		// CHAR_G
+			14: 	tx_Line1 = 8'b0100_0001;		// CHAR_A
 			default:tx_Line1 	= 8'b0;				// NONE
 		endcase
 	end
 		
 	always @(*)
 	begin
-		case ( cnt_2 )
-			0:		tx_Line2 	= 8'b0100_0101;		// CHAR_E
-			1:		tx_Line2 	= 8'b0110_1110;		// CHAR_n_C1
-			2:		tx_Line2 	= 8'b0110_1010;		// CHAR_j
-			3:		tx_Line2 	= 8'b0110_1111;		// CHAR_o
-			4:		tx_Line2 	= 8'b0111_1001;		// CHAR_y
-			5:		tx_Line2 	= 8'b0110_1001;		// CHAR_i
-			6:		tx_Line2 	= 8'b0110_1110;		// CHAR_n_C2
-			7:		tx_Line2 	= 8'b0110_0111;		// CHAR_g
-			8:		tx_Line2 	= 8'b0010_0000;		// CHAR_SPACE_3
-			9:		tx_Line2 	= 8'b0100_1001;		// CHAR_I
-			10:		tx_Line2 	= 8'b0111_0100;		// CHAR_t
-			11:		tx_Line2 	= 8'b0010_0001;		// CHAR_!
+		case ( cnt_2 ) //FPGA Starter
+			0:		tx_Line2 = 8'b0100_0110;		// CHAR_F
+			1:		tx_Line2 = 8'b0101_0000;		// CHAR_P
+			2:		tx_Line2 = 8'b0100_0111;		// CHAR_G
+			3:		tx_Line2 = 8'b0100_0001;		// CHAR_A
+			4:		tx_Line2 = 8'b0010_0000;		// CHAR_ 
+			5:		tx_Line2 = 8'b0101_0011;		// CHAR_S
+			6:		tx_Line2 = 8'b0111_0100;		// CHAR_t
+			7:		tx_Line2 = 8'b0110_0001;		// CHAR_a
+			8:		tx_Line2 = 8'b0110_0010;		// CHAR_r
+			9:		tx_Line2 = 8'b0111_0100;		// CHAR_t
+			10:	tx_Line2 = 8'b0110_0101;		// CHAR_e
+			11:	tx_Line2 = 8'b0110_0010;		// CHAR_r
 			default:tx_Line2 	= 8'b0;				// NONE
 		endcase
 	end
@@ -645,7 +647,7 @@ module LCD_Driver( output SF_CE0,			// 4 Î» LCD Êý¾ÝÐÅºÅÓë StrataFlash ´æ´¢Æ÷¹²Ï
 										if ( cnt_tx <= 2000 ) begin
 											ctrl_state <= LCD_LINE_1;
 										end
-										else if ( cnt_1 < 12 ) begin
+										else if ( cnt_1 < 14 ) begin
 												ctrl_state <= LCD_LINE_1;
 												
 												cnt_1 <= cnt_1 + 1;

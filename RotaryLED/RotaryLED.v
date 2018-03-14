@@ -26,40 +26,50 @@ module RotaryLED(
     output [7:0] LEDOut
     );
 	 reg [7:0] q;
-	 reg [31:0] count;
-	 reg clk_500ms;
+	 reg ROT_Q1;
+	 reg ROT_Q2;
+	 reg ROT_E;
+	 reg ROT_L;
+	 reg ROT_I;
+	 reg delay_ROT_Q1;
 	 
-	 always @ (clk) begin
-		if(count>=25000000) begin
-			count <= 0;
-			clk_500ms <= ~clk_500ms;
-		end
-		else count <= count + 1;
+	 always @( posedge clk )	begin
+		ROT_I <= {ROT_B, ROT_A};
+		case (ROT_I)
+			2'b00: ROT_Q1 <= 1'b0;
+			2'b01: ROT_Q2 <= 1'b0;
+			2'b10: ROT_Q2 <= 1'b1;
+			2'b11: ROT_Q1 <= 1'b1;
+			default: begin
+				ROT_Q1 <= 1'b0;
+				ROT_Q2 <= 1'b0;
+			end
+		endcase
 	 end
 	 
-	 always @ (clk_500ms) begin
+	 always @(posedge clk )	begin
+		delay_ROT_Q1 <= ROT_Q1;
+		if ( ROT_Q1 && (!delay_ROT_Q1)) begin
+			ROT_E <= 1'b1;
+			ROT_L <= ROT_Q2;
+		end
+		else ROT_E <= 1'b0;
+	 end
+	 
+	 always @ (posedge clk) begin
 		if(|q == 1'b0) begin
-			case({ROT_A, ROT_B})
-			2'b01:q <= 8'b1000_0000;
+			case(ROT_L)
+			2'b0:q <= 8'b1000_0000;
 			default:q <= 8'b0000_0001;
 			endcase
 		end
-		else
-			case({ROT_A, ROT_B})
-			2'b00:q <= q;
-			2'b10:q <= {q[6:0], q[7]};
-			2'b01:q <= {q[0], q[7:1]};
-			default:q <= 8'b0000_0001;
-			endcase
+		else begin
+			if(ROT_E) begin
+				if(ROT_L) q <= {q[6:0], q[7]};
+				else q <= {q[0], q[7:1]};
+			end
+		end
 	 end
 	 
 	 assign LEDOut = Switch?~q:q;
-	 
-//	 always @ (Switch) begin
-//		case(Switch)
-//		1'b0:LEDOut <= q;
-//		1'b1:LEDOut <= ~q;
-//		default:LEDOut <= 8'b0000_0001;
-//		endcase
-//	 end
 endmodule

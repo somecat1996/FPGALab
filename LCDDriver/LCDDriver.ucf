@@ -1,4 +1,3 @@
-
 # Disabled StrataFlash Parallel Flash PROM
 NET "SF_CE0"  LOC = "D16" | IOSTANDARD = LVCMOS33 | DRIVE = 4 | SLEW = SLOW ;
 
