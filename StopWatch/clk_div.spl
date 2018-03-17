@@ -1,0 +1,8 @@
+[Inputs]
+clk
+[Outputs]
+clk_100ms
+[BiDir]
+[ATTRIBUTES]
+VeriModel clk_div
+

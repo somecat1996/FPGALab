@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date:    00:27:43 03/14/2018 
+// Create Date:    21:44:00 03/16/2018 
 // Design Name: 
-// Module Name:    counter6 
+// Module Name:    counter_scope 
 // Project Name: 
 // Target Devices: 
 // Tool versions: 
@@ -18,19 +18,8 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module counter6(
-    input clk,
-	 input reset,
-    output reg [2:0] c6
+module counter_scope(
     );
-	 
-	 always @ (negedge clk, posedge reset) begin
-		if(reset) c6 <= 3'b000;
-		else begin
-			if(c6 >= 3'b101) c6 <= 3'b000;
-			else c6 <= c6+1;
-			end
-		end
 
 
 endmodule

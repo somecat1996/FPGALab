@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date:    00:27:43 03/14/2018 
+// Create Date:    21:56:24 03/08/2018 
 // Design Name: 
-// Module Name:    counter6 
+// Module Name:    clock_div7 
 // Project Name: 
 // Target Devices: 
 // Tool versions: 
@@ -18,19 +18,28 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module counter6(
-    input clk,
-	 input reset,
-    output reg [2:0] c6
+module clock_div7(
+    output clk_div7,
+    input clock,
+    input rst_n
     );
+	 reg [6:0] q;
 	 
-	 always @ (negedge clk, posedge reset) begin
-		if(reset) c6 <= 3'b000;
+	 always @ * begin
+		if(rst_n==1'b0) begin
+			q <= 7'b000_0001;
+			end
 		else begin
-			if(c6 >= 3'b101) c6 <= 3'b000;
-			else c6 <= c6+1;
+			if(|q==0) begin
+				q <= 7'b000_0001;
+				end
+			else begin
+				q <= {q[5:0], q[6]};
+				end
 			end
 		end
+	 
+	 assign clk_div7 = q[6];
 
 
 endmodule

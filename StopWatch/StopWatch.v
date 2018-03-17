@@ -18,9 +18,9 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-`include"counter10.v"
-`include"counter6.v"
-`include"clk_div.v"
+
+`include "counter6.v"
+`include "counter10.v"
 
 module StopWatch(output SF_CE0,
 				   output LCD_RW,
@@ -30,10 +30,11 @@ module StopWatch(output SF_CE0,
 					input clock,
 				   input reset
 					);
-	reg clk_100ms;
-	reg [4:0] m_digit, s_digit, ms_digit, m_tens, s_tens;
+	wire clk_100ms;
+	wire [3:0] m_digit, s_digit, ms_digit;
+	wire [2:0] m_tens, s_tens;
 	
-	clk_div cd(.clk(clk), .clk_100ms(clk_100ms));
+	clk_div cd(.clk(clock), .clk_100ms(clk_100ms));
 	counter10 c10_ms(.clk(clk_100ms), .reset(reset), .c10(ms_digit)),
 				 c10_s(.clk(ms_digit[3]), .reset(reset), .c10(s_digit)),
 				 c10_m(.clk(s_tens[2]), .reset(reset), .c10(m_digit));

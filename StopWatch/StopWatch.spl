@@ -1,0 +1,13 @@
+[Inputs]
+clock
+reset
+[Outputs]
+SF_CE0
+LCD_RW
+LCD_RS
+LCD_E
+=SF_D[3:0]=
+[BiDir]
+[ATTRIBUTES]
+VeriModel StopWatch
+

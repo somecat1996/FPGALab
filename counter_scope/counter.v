@@ -20,31 +20,24 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 module counter(
-    output [11:0] MSB12,
-	 output [ 3:0] cnt4b,
+    output reg [5:0] counter,
     input clock,
     input rst_n,
     input dir
     );
-	 reg [31:0] temp;
 	 
-	 always @ (rst_n, clk_div7) begin
+	 always @ (rst_n, clock) begin
 		if(rst_n==1'b0) begin
-			temp <= (dir) ? 32'hFFFF_FFFF : 32'b0;
+			counter <= (dir) ? 6'b11_1111 : 6'b0;
 			end
 		else
 			case(dir)
-			1'b0: temp <= temp+1'b1;
-			1'b1: temp <= temp-1'b1;
+			1'b0: counter <= counter + 1'b1;
+			1'b1: counter <= counter - 1'b1;
 			default: begin
-				if(dir==1'b0) temp <= 6'b0;
-				else if(dir==1'b1) temp <= 6'b11_1111;
+				if(dir==1'b0) counter <= 6'b0;
+				else if(dir==1'b1) counter <= 6'b11_1111;
 				end
 			endcase
 		 end
-	 
-	 assign MSB12 = temp[31:20],
-			  cnt4b = temp[3:0];
-
-
 endmodule
