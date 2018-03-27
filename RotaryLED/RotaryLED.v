@@ -30,7 +30,7 @@ module RotaryLED(
 	 reg ROT_Q2;
 	 reg ROT_E;
 	 reg ROT_L;
-	 reg ROT_I;
+	 reg [1:0] ROT_I;
 	 reg delay_ROT_Q1;
 	 
 	 always @( posedge clk )	begin
